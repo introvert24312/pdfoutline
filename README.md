@@ -2,7 +2,7 @@
 
 这是一个用来添加pdf大纲的小程序
 
-## 软件接受的格式如下，嫌麻烦可以用[这个软件][https://github.com/introvert24312/dingzhen]迅速转换出这样的格式的内容
+## 软件接受格式如下，嫌麻烦可以用[这个软件](https://github.com/introvert24312/dingzhen)转换出此格式
 ```
 第一章 营养学基础  1
 一、概述  1
