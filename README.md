@@ -17,6 +17,5 @@
     2.2 营养素的生理功能  2
 ```
 
-
-https://github.com/user-attachments/assets/68128a2f-94ff-4843-afbd-bc3e936a4165
+https://github.com/user-attachments/assets/e6bd83a8-c41a-473b-a692-d37ee11bf1f5
 
