@@ -1,10 +1,8 @@
 # 以目标文本为输入作为pdf大纲
 
-here is a simple program for adding an outline to a pdf
+这是一个用来添加pdf大纲的小程序
 
-I have prepared the app for both macOS and Windows, you can use it directly.
-
-## the format that the app needs is like：
+## 软件接受的格式如下：
 第一章 营养学基础  1
 
 一、概述  1
