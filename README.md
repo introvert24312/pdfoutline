@@ -1,5 +1,4 @@
-# adding an outline to a pdf
-hi there!
+# 以目标文本为输入作为pdf大纲
 
 here is a simple program for adding an outline to a pdf
 
