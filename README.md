@@ -16,4 +16,7 @@
     2.1 营养素的代谢  1
     2.2 营养素的生理功能  2
 ```
-<img width="1273" alt="Screenshot 2024-10-08 at 14 01 35" src="https://github.com/user-attachments/assets/eb4c97c4-6b9a-40e0-8437-6d77d44c967a">
+
+
+https://github.com/user-attachments/assets/68128a2f-94ff-4843-afbd-bc3e936a4165
+
