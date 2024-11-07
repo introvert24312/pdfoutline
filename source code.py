@@ -1,6 +1,6 @@
 import sys
 import os
-import fitz  # PyMuPDF +86 181 7062 6217 0713
+import fitz  # PyMuPDF 
 import platform
 import subprocess
 import re  # 引入正则表达式模块
