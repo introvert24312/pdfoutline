@@ -93,12 +93,107 @@ class ErrorDialog(QDialog):
         self.setLayout(layout)
 
 
+class HelpDialog(QDialog):
+    """
+    帮助对话框，显示格式说明
+    """
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("格式说明")
+        self.resize(600, 500)
+        layout = QVBoxLayout()
+
+        # 滚动区域
+        scroll_area = QScrollArea()
+        scroll_widget = QWidget()
+        scroll_layout = QVBoxLayout(scroll_widget)
+
+        # 标题
+        title_label = QLabel("📖 目录格式解析规则")
+        title_font = QFont()
+        title_font.setPointSize(16)
+        title_font.setBold(True)
+        title_label.setFont(title_font)
+        scroll_layout.addWidget(title_label)
+
+        # 说明内容
+        help_text = """
+<h3>🎯 格式要求</h3>
+<p><b>标准格式：</b> <code>标题 页码</code></p>
+<ul>
+<li>标题和页码之间用空格分隔</li>
+<li>最后的数字会被识别为页码</li>
+<li>支持中英文标题</li>
+</ul>
+
+<h3>📏 层级缩进</h3>
+<ul>
+<li><b>每4个空格 = 1个层级</b></li>
+<li>无缩进 → 第1层</li>
+<li>4个空格 → 第2层</li>
+<li>8个空格 → 第3层</li>
+<li>以此类推...</li>
+</ul>
+
+<h3>🔧 页码处理</h3>
+<ul>
+<li>会根据"页码偏移量"自动调整页码</li>
+<li>超出PDF页数范围的条目会被忽略</li>
+<li>页码从1开始计数</li>
+</ul>
+
+<h3>🛡️ 容错机制</h3>
+<ul>
+<li>格式错误的行会收集到错误报告</li>
+<li>部分成功时仍会生成带目录的PDF</li>
+<li>详细错误信息会在处理完成后显示</li>
+</ul>
+
+<h3>📝 使用步骤</h3>
+<ol>
+<li>点击"📋 使用模板"按钮获取示例格式</li>
+<li>修改为你的实际目录内容</li>
+<li>保持缩进规则：每4个空格为一层级</li>
+<li>确保每行格式为"标题 页码"</li>
+<li>点击"✅ 添加大纲"按钮处理</li>
+</ol>
+
+<h3>💡 示例</h3>
+<pre>
+第一章 基础知识  1
+一、概述  1
+    1.1 基本概念  2
+        1.1.1 定义  2
+        1.1.2 特点  3
+    1.2 应用领域  4
+二、详细内容  5
+</pre>
+        """
+
+        help_content = QTextEdit()
+        help_content.setHtml(help_text)
+        help_content.setReadOnly(True)
+        scroll_layout.addWidget(help_content)
+
+        scroll_area.setWidget(scroll_widget)
+        scroll_area.setWidgetResizable(True)
+        layout.addWidget(scroll_area)
+
+        # 关闭按钮
+        close_button = QPushButton("关闭")
+        close_button.clicked.connect(self.close)
+        layout.addWidget(close_button, alignment=Qt.AlignRight)
+
+        self.setLayout(layout)
+
+
 class PDFOutlineTool(QWidget):
     BUTTON_YELLOW = "#FF9800"  # 与“添加大纲”按钮相同的黄色
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('(❁´◡`❁)(❀^‿^)')
+        self.setWindowTitle('(*¯︶¯*)♡(^^)')
         self.resize(800, 600)
         self.setAcceptDrops(True)
         self.init_ui()
@@ -165,11 +260,51 @@ class PDFOutlineTool(QWidget):
 
         # 目录内容部分
         toc_layout = QVBoxLayout()
+        toc_header_layout = QHBoxLayout()
         toc_label = QLabel("目录内容：")
         toc_label.setFont(QFont())  # 使用全局字体
+        
+        # 添加模板按钮和帮助按钮
+        template_button = QPushButton("📋 使用模板")
+        template_button.setStyleSheet(f"""
+            QPushButton {{
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 5px 15px;
+                font-size: 12px;
+                border-radius: 3px;
+            }}
+            QPushButton:hover {{
+                background-color: #45a049;
+            }}
+        """)
+        template_button.clicked.connect(self.use_template)
+        
+        help_button = QPushButton("❓ 格式说明")
+        help_button.setStyleSheet(f"""
+            QPushButton {{
+                background-color: #2196F3;
+                color: white;
+                border: none;
+                padding: 5px 15px;
+                font-size: 12px;
+                border-radius: 3px;
+            }}
+            QPushButton:hover {{
+                background-color: #1976D2;
+            }}
+        """)
+        help_button.clicked.connect(self.show_help)
+        
+        toc_header_layout.addWidget(toc_label)
+        toc_header_layout.addStretch()
+        toc_header_layout.addWidget(help_button)
+        toc_header_layout.addWidget(template_button)
+        
         self.toc_text_edit = QTextEdit()
         self.toc_text_edit.setPlaceholderText("目录会出现在这里\n你可以改它....")
-        toc_layout.addWidget(toc_label)
+        toc_layout.addLayout(toc_header_layout)
         toc_layout.addWidget(self.toc_text_edit)
         main_layout.addLayout(toc_layout)
 
@@ -631,6 +766,30 @@ class PDFOutlineTool(QWidget):
             errors.append(f"保存新 PDF 文件时出错：{str(e)}")
         finally:
             doc.close()
+
+    def use_template(self):
+        """
+        插入目录模板到文本框中
+        """
+        template = """第一章 营养学基础  1
+一、概述  1
+    1.1 食物成分  1
+        1.1.1 营养素种类及分类  1
+        1.1.2 水及其他膳食成分  1
+    1.2 人体营养需要  2
+        1.2.1 营养素的代谢及生理功能  2
+        1.2.2 营养对人体构成的影响  2
+二、营养素的代谢及生理功能  1
+    2.1 营养素的代谢  1
+    2.2 营养素的生理功能  2"""
+        self.toc_text_edit.setPlainText(template)
+
+    def show_help(self):
+        """
+        显示格式说明对话框
+        """
+        help_dialog = HelpDialog(self)
+        help_dialog.exec_()
 
     def mousePressEvent(self, event):
         """
