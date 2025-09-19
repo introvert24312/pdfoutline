@@ -2,12 +2,6 @@
 
 一个简单易用的PDF目录添加工具，支持拖放操作和可视化界面。
 
-
-
-
-
-
-
 ![应用界面](https://img.shields.io/badge/Platform-macOS-lightgrey?style=for-the-badge&logo=apple)
 ![Python版本](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
